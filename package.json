@@ -1,0 +1,28 @@
+{
+  "name": "tilemapeditor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@peasy-lib/peasy-assets": "^0.2.4",
+    "@peasy-lib/peasy-input": "^0.2.0",
+    "@peasy-lib/peasy-ui": "^0.9.46",
+    "aseprite-parser": "^1.0.9",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.2",
+    "json": "^11.0.0",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.4"
+  }
+}
