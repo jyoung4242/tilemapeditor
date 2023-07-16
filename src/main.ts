@@ -187,7 +187,16 @@ const model = {
           const tempImage = tempcnv.toDataURL();
           const storeImage = new Image();
           storeImage.src = tempImage;
-          model.tiles.push({ id: uuidv4(), image: tempImage, color: "white", imageElement: storeImage });
+          model.tiles.push({
+            id: uuidv4(),
+            image: tempImage,
+            color: "white",
+            imageElement: storeImage,
+            offsetX: x * parseInt(model.TileWidthInput.value),
+            offsetY: y * parseInt(model.TileHeightInput.value),
+            width: parseInt(model.TileWidthInput.value),
+            height: parseInt(model.TileHeightInput.value),
+          });
         }
       }
       model.isTileSetLoaded = true;
@@ -208,10 +217,28 @@ const model = {
         anchor.remove();
       }
     } else if (m.exportType == "squeleto") {
-      let genrator = new squeletoTileMapGenerator("myTileMap.ts");
-      genrator.loadMapData([model.mapObject]);
-      genrator.loadTileSet(model.tiles);
-      genrator.writeFile();
+      let mapWidth, mapHeight;
+      if (model.TileWidthInput && model.TilesetWidthNumTilesInput)
+        mapWidth =
+          parseInt((model.TileWidthInput as HTMLInputElement).value) *
+          parseInt((model.TilesetWidthNumTilesInput as HTMLInputElement).value);
+      if (model.TileHeightInput && model.TilesetHeightNumTilesInput)
+        mapHeight =
+          parseInt((model.TileHeightInput as HTMLInputElement).value) *
+          parseInt((model.TilesetHeightNumTilesInput as HTMLInputElement).value);
+      let genrator;
+      if (model.levelHeightInput && model.levelWidthInput && model.TileWidthInput)
+        genrator = new squeletoTileMapGenerator(
+          "myTileMap.ts",
+          "myMap",
+          { w: mapWidth as number, h: mapHeight as number },
+          parseInt((model.levelHeightInput as HTMLInputElement).value),
+          parseInt((model.levelWidthInput as HTMLInputElement).value),
+          parseInt((model.TileWidthInput as HTMLInputElement).value)
+        );
+      genrator?.loadMapData([model.mapObject]);
+      genrator?.loadTileSet(model.tiles);
+      genrator?.writeFile();
     }
   },
   chgeCanvas: () => {
@@ -414,5 +441,4 @@ function drawCanvas() {
       (ctx as CanvasRenderingContext2D).drawImage(imageToDraw, drawX, drawY, sizeX, sizeY);
     }
   });
-  console.log(model.mapObject);
 }
